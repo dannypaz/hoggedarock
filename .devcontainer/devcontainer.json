@@ -1,0 +1,116 @@
+{
+  "name": "Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "mounts": [
+    {
+      "source": "dev-profile",
+      "target": "/devprofile",
+      "type": "volume"
+    }
+  ],
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "workspaceFolder": "/workspace",
+  "postCreateCommand": "zsh .devcontainer/container-start.sh",
+  "remoteEnv": {
+    "PYTHONPATH": "${containerWorkspaceFolder}/src:${containerEnv:PYTHONPATH}",
+    "VIRTUAL_ENV_DISABLE_PROMPT": "1"
+  },
+  "containerEnv": {
+    // using buildx to speed up docker builds
+    "DOCKER_BUILDKIT": "1",
+    "COMPOSE_DOCKER_CLI_BUILD": "1"
+  },
+  "forwardPorts": [
+    4983
+  ],
+  "remoteUser": "vscode",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "[jsonc]": {
+          "editor.defaultFormatter": "vscode.json-language-features",
+          "editor.formatOnSave": true
+        },
+        "[python]": {
+          "editor.defaultFormatter": "charliermarsh.ruff",
+          "editor.formatOnSave": true,
+          "editor.insertSpaces": true,
+          "editor.tabSize": 4,
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+          }
+        },
+        "ruff.configuration": "${workspaceFolder}/pyproject.toml",
+        "[javascript][javascriptreact][typescript][typescriptreact]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnSave": true,
+          "source.organizeImports": true
+        },
+        "python.venvPath": "${workspaceFolder}",
+        "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+        "python.terminal.activateEnvironment": false,
+        "python.terminal.activateEnvInCurrentTerminal": false,
+        "pyright.analysis.diagnosticMode": "openFilesOnly",
+        "pyright.disablePullDiagnostics": true,
+        "pyright.analysis.inlayHints.variableTypes": false,
+        "pyright.analysis.inlayHints.callArgumentNames": false,
+        "pyright.analysis.inlayHints.functionReturnTypes": false,
+        "pyright.analysis.inlayHints.genericTypes": false,
+        "[html]": {
+          "editor.defaultFormatter": "vscode.html-language-features"
+        },
+        "editor.scrollBeyondLastLine": false,
+        "search.exclude": {
+          "**/.git/**": true,
+          "**/.DS_Store": true,
+          "**/dist/**": true,
+          "**/.venv/**": true,
+          "**/__pycache__/**": true,
+          "**/build/**": true,
+          "**/_ruff_cache/**": true,
+          "**/_pytest_cache/**": true,
+          "**/.next/**": true,
+          "**/.pnpm_store/**": true
+        },
+        "files.watcherExclude": {
+          "**/.git/**": true,
+          "**/.DS_Store": true,
+          "**/dist/**": true,
+          "**/.venv/**": true,
+          "**/__pycache__/**": true,
+          "**/build/**": true,
+          "**/_ruff_cache/**": true,
+          "**/_pytest_cache/**": true,
+          "**/.next/**": true,
+          "**/.pnpm_store/**": true
+        },
+        "search.smartCase": true,
+        "search.searchOnTypeDebouncePeriod": 150,
+        "remote.downloadExtensionsLocally": true,
+        "extensions.ignoreRecommendations": true,
+        "terminal.integrated.defaultProfile.mac": "zsh",
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.suggest.enabled": false,
+        "terminal.integrated.commandDecorations.enabled": false,
+        "terminal.integrated.shellIntegration.enabled": false,
+        "terminal.integrated.enablePersistentSessions": false,
+        "terminal.integrated.restoreSessionsOnStartup": "never",
+        "files.associations": {
+          ".zshrc.container": "shell"
+        }
+      },
+      "extensions": [
+        "charliermarsh.ruff",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "ms-python.python",
+        "astral-sh.ty",
+        "ms-vsliveshare.vsliveshare",
+        "openai.chatgpt"
+      ]
+    }
+  }
+}

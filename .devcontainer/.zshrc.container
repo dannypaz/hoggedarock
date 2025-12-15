@@ -1,0 +1,39 @@
+export PATH="${HOME}/.local/bin:${PATH}"
+
+# ZSH
+export HISTFILE=/devprofile/.zsh_history
+export HISTSIZE=5000
+export SAVEHIST=5000
+setopt SHARE_HISTORY
+autoload -Uz compinit
+compinit -C
+
+# UV Config
+export UV_LINK_MODE=copy
+export UV_ENV_FILE="/workspace/.env"
+
+# Git settings
+export GIT_EDITOR="vim"
+# Let git know that it is managing a lot of files
+git config feature.manyFiles true
+git update-index --index-version 4
+
+# Set vscode prompt
+setopt prompt_subst
+# Git info
+autoload -Uz vcs_info
+zstyle ':vcs_info:git:*' formats '%F{green}(%b)%f'
+zstyle ':vcs_info:*' enable git
+precmd() { vcs_info }
+
+# Main prompt with proper multi-line support
+PROMPT=$'%{%F{blue}%}%n%{%f%} ➜ %{%F{cyan}%}%~%{%f%} ${vcs_info_msg_0_} %{%F{white}%}$%{%f%} '
+
+# Command prompt
+PROMPT2='%{%F{blue}%}%_%{%f%} ➜ '
+
+# Selection prompt
+PROMPT3='%{%F{blue}%}?%{%f%} ➜ '
+
+# Correction prompt
+PROMPT4='%{%F{blue}%}%e%{%f%} ➜ '
